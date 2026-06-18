@@ -4,9 +4,9 @@ import { GraduationCap, MonitorSmartphone, Cpu } from "lucide-react";
 import SectionHeader from "./SectionHeader";
 
 const STATS = [
-  { value: 4, suffix: "", label: "Projects" },
-  { value: 500, suffix: "+", label: "Connections" },
-  { value: 5, suffix: "", label: "Certifications" },
+  { value: 2, suffix: "", label: "Projects" },
+  { value: 1000, suffix: "+", label: "Followers" },
+  { value: 1, suffix: "", label: "Internship" },
 ];
 
 function AnimatedCounter({ target, suffix }) {
