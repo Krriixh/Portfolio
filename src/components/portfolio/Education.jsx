@@ -7,7 +7,7 @@ const EDUCATION = [
   {
     institution: "Lovely Professional University",
     degree: "B.Tech CSE (Data Science)",
-    period: "2022 – 2026",
+    period: "2023 – 2027",
   },
   {
     institution: "Kendriya Vidyalaya",
