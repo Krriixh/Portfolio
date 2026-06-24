@@ -60,8 +60,8 @@ export default function ProjectCard({ project, featured, tall }) {
   return (
     <div className={`perspective-[1000px] ${featured ? "lg:col-span-2" : ""} ${tall ? "flex flex-col h-full" : ""}`}>
       <motion.div
-        initial={{ opacity: 0, y: 50, scale: 0.95, filter: "blur(10px)" }}
-        whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+        initial={{ opacity: 0, y: 50, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         onMouseMove={handleMouseMove}

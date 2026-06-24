@@ -52,6 +52,7 @@ const AnimatedBlock = ({ children, as: Component = "div", className, ...props })
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      style={{ willChange: 'transform, opacity' }}
     >
       <Component className={className} {...props}>{children}</Component>
     </motion.div>
@@ -164,8 +165,8 @@ export default function CaseStudy() {
       
       {/* Background glow */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-white/5 blur-[120px]" />
-        <div className="absolute top-[60%] -right-[10%] w-[40%] h-[40%] rounded-full bg-white/5 blur-[120px]" />
+        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-white/5 blur-[60px] md:blur-[80px] will-change-[transform,opacity]" />
+        <div className="absolute top-[60%] -right-[10%] w-[40%] h-[40%] rounded-full bg-white/5 blur-[60px] md:blur-[80px] will-change-[transform,opacity]" />
       </div>
 
       {/* Hero Section */}

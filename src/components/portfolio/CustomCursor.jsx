@@ -96,9 +96,7 @@ export default function CustomCursor() {
         animate={{
           width: ringSize,
           height: ringSize,
-          backgroundColor: hovered ? "rgba(255, 255, 255, 0.02)" : "rgba(255, 255, 255, 0)",
-          backdropFilter: hovered ? "blur(4px) brightness(1.05)" : "blur(1.5px) brightness(1.05)",
-          WebkitBackdropFilter: hovered ? "blur(4px) brightness(1.05)" : "blur(1.5px) brightness(1.05)",
+          backgroundColor: hovered ? "rgba(255, 255, 255, 0.05)" : "rgba(255, 255, 255, 0)",
           borderColor: hovered ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.25)",
           borderWidth: 1,
           boxShadow: hovered ? "0 4px 20px rgba(255,255,255,0.05)" : "0 0 10px rgba(255,255,255,0.02)"
