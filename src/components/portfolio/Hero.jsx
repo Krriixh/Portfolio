@@ -26,7 +26,7 @@ function getGreeting() {
   return "Good evening. Welcome to my workspace.";
 }
 
-export default function Hero() {
+export default function Hero({ isScrolled }) {
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDecrypting, setIsDecrypting] = useState(true);
@@ -40,8 +40,6 @@ export default function Hero() {
 
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
-
-
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -129,14 +127,45 @@ export default function Hero() {
             {/* Editorial headline — weight contrast */}
             <motion.h1
               variants={item}
-              className="font-heading leading-[0.92] mb-6"
+              className="font-heading leading-[0.92] mb-6 flex flex-col"
               style={{ letterSpacing: "-0.04em" }}
             >
-              <span className="block text-6xl sm:text-7xl lg:text-8xl xl:text-[7rem] font-light text-white/80">
-                Krrish Raj
+              <span className="block text-6xl sm:text-7xl lg:text-8xl xl:text-[7rem] font-light text-white/80 whitespace-nowrap">
+                {/* Krrish */}
+                <span className="relative inline-block">
+                  <span className="invisible pointer-events-none">K</span>
+                  {!isScrolled && (
+                    <motion.span layoutId="initial-k" transition={{ duration: 0.2, ease: "easeOut" }} className="absolute inset-0">K</motion.span>
+                  )}
+                </span>
+                <span className={`inline-block transition-opacity duration-500 ${isScrolled ? 'opacity-0' : 'opacity-100'}`}>
+                  rrish
+                </span>
+                
+                <span className="inline-block w-4 sm:w-6 lg:w-8" />
+                
+                {/* Raj */}
+                <span className="relative inline-block">
+                  <span className="invisible pointer-events-none">R</span>
+                  {!isScrolled && (
+                    <motion.span layoutId="initial-r" transition={{ duration: 0.2, ease: "easeOut" }} className="absolute inset-0">R</motion.span>
+                  )}
+                </span>
+                <span className={`inline-block transition-opacity duration-500 ${isScrolled ? 'opacity-0' : 'opacity-100'}`}>
+                  aj
+                </span>
               </span>
-              <span className="block text-6xl sm:text-7xl lg:text-8xl xl:text-[7rem] font-bold text-white">
-                Chauhan
+              <span className="block text-6xl sm:text-7xl lg:text-8xl xl:text-[7rem] font-bold text-white whitespace-nowrap">
+                {/* Chauhan */}
+                <span className="relative inline-block">
+                  <span className="invisible pointer-events-none">C</span>
+                  {!isScrolled && (
+                    <motion.span layoutId="initial-c" transition={{ duration: 0.2, ease: "easeOut" }} className="absolute inset-0">C</motion.span>
+                  )}
+                </span>
+                <span className={`inline-block transition-opacity duration-500 ${isScrolled ? 'opacity-0' : 'opacity-100'}`}>
+                  hauhan
+                </span>
               </span>
             </motion.h1>
 

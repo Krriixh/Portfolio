@@ -60,20 +60,25 @@ export default function Navbar() {
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       setScrollProgress(totalHeight > 0 ? scrollY / totalHeight : 0);
 
-      // ScrollSpy logic: Precisely track which section occupies the center of the viewport
-      const sections = document.querySelectorAll("section[id]");
+      // ScrollSpy logic: Track only sections present in the navbar
+      const navIds = NAV_ITEMS.map(item => item.href.slice(1));
+      const sections = Array.from(document.querySelectorAll("section[id]")).filter(sec => navIds.includes(sec.getAttribute("id")));
+      
       let currentActive = "";
       const viewportCenter = scrollY + window.innerHeight / 3;
 
       sections.forEach((section) => {
         const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-        
-        // If the top 1/3 of the viewport is within this section
-        if (viewportCenter >= sectionTop && viewportCenter < sectionTop + sectionHeight) {
+        // Keep the section active until the next tracked section is reached
+        if (viewportCenter >= sectionTop - 50) {
           currentActive = section.getAttribute("id");
         }
       });
+
+      // Special case for the bottom of the page
+      if (window.innerHeight + scrollY >= document.documentElement.scrollHeight - 50) {
+        currentActive = "contact";
+      }
 
       // Top of page edge case
       if (scrollY < 100) {

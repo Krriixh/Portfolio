@@ -85,7 +85,7 @@ export default function CustomCursor() {
       {/* Stylish Outer Ring */}
       <motion.div
         ref={cursorRef}
-        className="fixed top-0 left-0 pointer-events-none z-[9999] flex items-center justify-center overflow-hidden rounded-full transition-shadow duration-300 mix-blend-difference"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] flex items-center justify-center overflow-hidden rounded-full transition-shadow duration-300"
         style={{
           x: ringX,
           y: ringY,
@@ -96,12 +96,12 @@ export default function CustomCursor() {
         animate={{
           width: ringSize,
           height: ringSize,
-          backgroundColor: hovered ? "rgba(255, 255, 255, 0.01)" : "rgba(255, 255, 255, 0)",
-          backdropFilter: hovered ? "blur(6px) brightness(1.1)" : "blur(2px) brightness(1.2)",
-          WebkitBackdropFilter: hovered ? "blur(6px) brightness(1.1)" : "blur(2px) brightness(1.2)",
-          borderColor: hovered ? "rgba(255, 255, 255, 0.3)" : "rgba(255, 255, 255, 0.5)",
+          backgroundColor: hovered ? "rgba(255, 255, 255, 0.02)" : "rgba(255, 255, 255, 0)",
+          backdropFilter: hovered ? "blur(4px) brightness(1.05)" : "blur(1.5px) brightness(1.05)",
+          WebkitBackdropFilter: hovered ? "blur(4px) brightness(1.05)" : "blur(1.5px) brightness(1.05)",
+          borderColor: hovered ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.25)",
           borderWidth: 1,
-          boxShadow: hovered ? "0 8px 32px rgba(255,255,255,0.1)" : "0 0 10px rgba(255,255,255,0.05)"
+          boxShadow: hovered ? "0 4px 20px rgba(255,255,255,0.05)" : "0 0 10px rgba(255,255,255,0.02)"
         }}
         transition={{ type: "spring", stiffness: 400, damping: 28 }}
       >

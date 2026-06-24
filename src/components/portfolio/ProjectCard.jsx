@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ExternalLink, Github, ChevronLeft, ChevronRight, Zap, FileText } from "lucide-react";
 
@@ -7,6 +7,37 @@ export default function ProjectCard({ project, featured, tall }) {
   const [activeShot, setActiveShot] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const screenshots = project.screenshots || [project.image];
+
+  // 3D Tilt Logic
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 40 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 40 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+  
+  // Glare moves opposite to the mouse direction for realism
+  const glareX = useTransform(mouseXSpring, [-0.5, 0.5], ["100%", "0%"]);
+  const glareY = useTransform(mouseYSpring, [-0.5, 0.5], ["100%", "0%"]);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   // Premium auto-play workflow presentation
   useEffect(() => {
@@ -27,23 +58,42 @@ export default function ProjectCard({ project, featured, tall }) {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50, scale: 0.95, filter: "blur(10px)" }}
-      whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className={`glass-panel group rounded-2xl overflow-hidden transition-all duration-500
-        border border-white/[0.07] hover:border-white/[0.14]
-        hover:shadow-[0_0_40px_rgba(255,255,255,0.04),inset_0_0_0_1px_rgba(255,255,255,0.07)]
-        ${featured ? "lg:col-span-2" : ""} ${tall ? "flex flex-col" : ""}`}
-    >
-      {/* Screenshot area */}
-      <div 
-        className="relative overflow-hidden bg-[#080808]" 
-        style={{ aspectRatio: featured ? "16/7" : "16/9" }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+    <div className={`perspective-[1000px] ${featured ? "lg:col-span-2" : ""} ${tall ? "flex flex-col h-full" : ""}`}>
+      <motion.div
+        initial={{ opacity: 0, y: 50, scale: 0.95, filter: "blur(10px)" }}
+        whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
+        }}
+        className={`relative glass-panel group rounded-2xl overflow-hidden transition-all duration-500
+          border border-white/[0.07] hover:border-white/[0.14]
+          hover:shadow-[0_20px_40px_rgba(0,0,0,0.4),0_0_40px_rgba(255,255,255,0.04),inset_0_0_0_1px_rgba(255,255,255,0.07)]
+          ${tall ? "flex flex-col h-full" : "h-full"}`}
       >
+        {/* Dynamic Glare effect */}
+        <motion.div
+          className="pointer-events-none absolute inset-0 z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"
+          style={{
+            background: useTransform(
+              [glareX, glareY],
+              ([x, y]) => `radial-gradient(circle at ${x} ${y}, rgba(255,255,255,0.3) 0%, transparent 50%)`
+            ),
+          }}
+        />
+
+        {/* Screenshot area */}
+        <div 
+          className="relative overflow-hidden bg-[#080808]" 
+          style={{ aspectRatio: featured ? "16/7" : "16/9", transform: "translateZ(20px)" }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
         <AnimatePresence mode="wait">
           <motion.img
             key={activeShot}
@@ -178,6 +228,7 @@ export default function ProjectCard({ project, featured, tall }) {
           </div>
         )}
       </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }
